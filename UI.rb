@@ -15,7 +15,7 @@ end
 
 def menu
 	loop do 
-		puts "PRESS (s)urvey designer OR (u)ser"
+		puts "(s)urvey designer, (u)ser, e(x)it"
 		main_choice = gets.chomp
 
 		if main_choice == 's'
@@ -48,8 +48,50 @@ def menu
 			else
 				puts "INVALID CHOICE"
 			end
+
+		elsif main_choice == 'u'
+			user_login
+			puts "PRESS 'ts' TO TAKE A SURVEY"
+			choice = gets.chomp
+			case choice
+			when 'ts'
+				take_survey
+			end
+
+		elsif main_choice == 'x'
+			exit
+		else
+			puts "INVALID OPTION"
 		end
 	end
+end
+
+def user_login
+	puts "PRESS 'e' FOR EXISTING USER OR 'a' TO ADD YOURSELF"
+	choice = gets.chomp
+	if choice == 'a'
+		add_user
+	elsif choice == 'e'
+		list_users
+	else
+		puts "INVALID OPTION"
+	end	
+end
+
+def add_user
+	puts "ENTER A NEW USER:"
+	user_input = gets.chomp
+	user = User.create(:name => user_input)
+	puts "#{user.name} HAS BEEN ADDED"
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+end
+
+def list_users
+	puts "~~~~~~~~~ USERS ~~~~~~~~~"
+	User.all.each do |user|
+		puts "#{user.id}: #{user.name}"
+	end
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 end
 
 def add_survey
@@ -136,6 +178,8 @@ def delete_question
 	puts "QUESTION DELETED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 end
+
+
 
 
 welcome
