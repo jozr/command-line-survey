@@ -67,12 +67,17 @@ def menu
 end
 
 def user_login
-	puts "PRESS 'e' FOR EXISTING USER OR 'a' TO ADD YOURSELF"
+	@user_id = nil
+	puts "PRESS 'e' FOR EXISTING USER OR 'a' TO ADD USER"
 	choice = gets.chomp
 	if choice == 'a'
 		add_user
 	elsif choice == 'e'
 		list_users
+		puts "CHOOSE USERNAME ID:"
+		user_input = gets.chomp
+		user = User.find_by(:id => user_input)
+		@user_id = user.id
 	else
 		puts "INVALID OPTION"
 	end	
@@ -82,6 +87,7 @@ def add_user
 	puts "ENTER A NEW USER:"
 	user_input = gets.chomp
 	user = User.create(:name => user_input)
+	@user_id = user.id
 	puts "#{user.name} HAS BEEN ADDED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 end
@@ -92,6 +98,19 @@ def list_users
 		puts "#{user.id}: #{user.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+end
+
+def take_survey
+	puts "ENTER A SURVEY ID TO TAKE:"
+	list_surveys
+	survey_input = gets.chomp
+	questions = Question.where(:survey_id => survey_input)
+	questions.each do |question|
+		puts "#{question.description}"
+		answer_input = gets.chomp
+		Answer.create(:user_id => @user_id, :question_id => question.id, :answer => answer_input)
+	end
+	puts "~~~~~~ THANK YOU ~~~~~~~"
 end
 
 def add_survey
