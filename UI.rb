@@ -105,12 +105,17 @@ def take_survey
 	list_surveys
 	survey_input = gets.chomp
 	questions = Question.where(:survey_id => survey_input)
+	counter = 0
 	questions.each do |question|
+		counter += 1
+		puts "~~~~~~ QUESTION #{counter} ~~~~~~"
 		puts "#{question.description}"
+		puts "(a) #{question.a}"
+		puts "(b) #{question.b}"
 		answer_input = gets.chomp
 		Answer.create(:user_id => @user_id, :question_id => question.id, :answer => answer_input)
 	end
-	puts "~~~~~~ THANK YOU ~~~~~~~"
+	puts "~~~~~~~ THANK YOU ~~~~~~~"
 end
 
 def add_survey
