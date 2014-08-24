@@ -14,55 +14,74 @@ def welcome
 end
 
 def menu
-	loop do 
-		puts "(s)urvey designer, (u)ser, e(x)it"
-		main_choice = gets.chomp
+	puts "(s)urvey designer, (u)ser, e(x)it"
+	main_choice = gets.chomp
+	if main_choice == 's'
+		designer_menu
+	elsif main_choice == 'u'
+		user_menu
+	elsif main_choice == 'x'
+		puts "======================= GOODBYE ======================"
+		exit
+	else
+		puts "INVALID CHOICE"
+	end
+end
 
-		if main_choice == 's'
-			puts "PRESS 'a' TO ADD A NEW SURVEY OR 'l' TO LIST SURVEYS"
-			puts "PRESS 'e' TO EDIT SURVEY OR 'd' TO DELETE A SURVEY"
-			puts "PRESS 'aq' TO ADD A NEW QUESTION OR 'lq' TO LIST QUESTIONS"
-			puts "PRESS 'eq' TO EDIT A QUESTION OR 'dq' TO DELETE A QUESTION"
-			puts "PRESS 'x' TO EXIT"
-			puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-			choice = gets.chomp
-			case choice
-			when 'a'
-				add_survey
-			when 'l'
-				list_surveys
-			when 'e'
-				edit_survey
-			when 'd'
-				delete_survey
-			when 'aq'
-				add_question
-			when 'lq'
-				list_questions
-			when 'eq'
-				edit_question
-			when 'dq'
-				delete_question
-			when 'x' 
-				exit
-			else
-				puts "INVALID CHOICE"
-			end
+		
+def designer_menu
+	puts "PRESS 'a' TO ADD A NEW SURVEY OR 'l' TO LIST SURVEYS"
+	puts "PRESS 'e' TO EDIT SURVEY OR 'd' TO DELETE A SURVEY"
+	puts "PRESS 'aq' TO ADD A NEW QUESTION OR 'lq' TO LIST QUESTIONS"
+	puts "PRESS 'eq' TO EDIT A QUESTION OR 'dq' TO DELETE A QUESTION"
+	puts "PRESS 'vu' TO VIEW STORED USERS"
+	puts "PRESS 'eu' TO EDIT A USER NAME OR 'du' TO DELETE A USER"
+	puts "PRESS 'x' TO EXIT"
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	choice = gets.chomp
+	if choice == 'a'
+		add_survey
+	elsif choice == 'l'
+		list_surveys
+	elsif choice == 'e'
+		edit_survey
+	elsif choice == 'd'
+		delete_survey
+	elsif choice == 'aq'
+		add_question
+	elsif choice == 'lq'
+		list_questions
+	elsif choice == 'eq'
+		edit_question
+	elsif choice == 'dq'
+		delete_question
+	elsif choice == 'vu'
+		list_users
+	elsif choice == 'eu'
+		edit_user
+	elsif choice == 'du'
+		delete_user
+	elsif choice == 'x' 
+		puts "======================= GOODBYE ======================"
+		exit
+	else
+		puts "INVALID CHOICE"
+	end
+end
 
-		elsif main_choice == 'u'
-			user_login
-			puts "PRESS 'ts' TO TAKE A SURVEY"
-			choice = gets.chomp
-			case choice
-			when 'ts'
-				take_survey
-			end
-
-		elsif main_choice == 'x'
-			exit
-		else
-			puts "INVALID OPTION"
-		end
+def user_menu
+	user_login
+	puts "PRESS 'ts' TO TAKE A SURVEY"
+	puts "PRESS 'x' TO EXIT"
+	choice = gets.chomp
+	case choice
+	when 'ts'
+		take_survey
+	when 'x'
+		puts "======================= GOODBYE ======================"
+		exit
+	else
+		puts "INVALID CHOICE"
 	end
 end
 
@@ -100,6 +119,26 @@ def list_users
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 end
 
+def edit_user
+	puts "ENTER A USER ID TO EDIT:"
+	list_users
+	user_input = gets.chomp
+	puts "ENTER THE NEW NAME"
+	new_name = gets.chomp
+	User.update(user_input, :name => new_name)
+	puts "USER UPDATED"
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+end
+
+def delete_user
+	puts "ENTER A USER ID TO DELETE:"
+	list_users
+	user_input = gets.chomp
+	User.delete(user_input)
+	puts "USER DELETED"
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+end
+
 def take_survey
 	puts "ENTER A SURVEY ID TO TAKE:"
 	list_surveys
@@ -113,7 +152,11 @@ def take_survey
 		puts "(a) #{question.a}"
 		puts "(b) #{question.b}"
 		answer_input = gets.chomp
-		Answer.create(:user_id => @user_id, :question_id => question.id, :answer => answer_input)
+		if answer_input == 'a' || answer_input == 'b'
+			Answer.create(:user_id => @user_id, :question_id => question.id, :answer => answer_input)
+		else 
+			puts "INVALID CHOICE"
+		end
 	end
 	puts "~~~~~~~ THANK YOU ~~~~~~~"
 end
