@@ -117,6 +117,7 @@ def list_users
 		puts "#{user.id}: #{user.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def edit_user
@@ -128,6 +129,7 @@ def edit_user
 	User.update(user_input, :name => new_name)
 	puts "USER UPDATED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def delete_user
@@ -137,6 +139,7 @@ def delete_user
 	User.delete(user_input)
 	puts "USER DELETED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def take_survey
@@ -159,6 +162,7 @@ def take_survey
 		end
 	end
 	puts "~~~~~~~ THANK YOU ~~~~~~~"
+	user_menu
 end
 
 def add_survey
@@ -167,6 +171,7 @@ def add_survey
 	survey = Survey.create(:name => survey_name)
 	puts "#{survey.name} HAS BEEN ADDED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def list_surveys
@@ -175,6 +180,7 @@ def list_surveys
 		puts "#{survey.id}: #{survey.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def edit_survey
@@ -186,6 +192,7 @@ def edit_survey
 	Survey.update(survey_input, :name => new_name)
 	puts "SURVEY UPDATED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def delete_survey
@@ -195,6 +202,7 @@ def delete_survey
 	Survey.delete(survey_input)
 	puts "SURVEY DELETED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def add_question
@@ -210,6 +218,7 @@ def add_question
 	question = Question.create(:survey_id => survey_input, :description => description_input, :a => a_input, :b => b_input)
 	puts "QUESTION ADDED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def list_questions
@@ -220,6 +229,7 @@ def list_questions
 	puts "~~~~~~~ QUESTIONS ~~~~~~~"
 	questions.each { |question| puts "#{question.id}: #{question.description}" }
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def edit_question
@@ -235,6 +245,7 @@ def edit_question
 	Question.update(question_input, :description => description_input, :a => a_input, :b => b_input)
 	puts "QUESTION UPDATED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 def delete_question
@@ -244,6 +255,7 @@ def delete_question
 	Question.delete(question_input)
 	puts "QUESTION DELETED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	designer_menu
 end
 
 
