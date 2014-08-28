@@ -6,6 +6,8 @@ class Answer < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :question
 
+	before_save :downcase_answer
+
 private
 
 	def downcase_answer

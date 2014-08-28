@@ -8,4 +8,9 @@ describe Answer do
 
   it { should belong_to :question }
   it { should belong_to :user }
+
+  it 'converts the answer to lowecase' do
+  	test_answer = Answer.create(:user_id => 1, :question_id => 1, :answer => 'A')
+  	test_answer.answer.should eq 'a'
+  end
 end
