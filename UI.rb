@@ -203,7 +203,7 @@ end
 
 def list_surveys
 	puts "~~~~~~~~ SURVEYS ~~~~~~~~"
-	Survey.all.each do |survey| 
+	Survey.sort_surveys.each do |survey| 
 		puts "#{survey.id}: #{survey.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
