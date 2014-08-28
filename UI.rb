@@ -3,6 +3,7 @@ require './lib/survey'
 require './lib/question'
 require './lib/answer'
 require './lib/user'
+require 'pry'
 
 database_configuration = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configuration['development']
@@ -42,7 +43,7 @@ def designer_menu
 	if choice == 'a'
 		add_survey
 	elsif choice == 'l'
-		list_surveys
+		only_list_surveys
 	elsif choice == 'e'
 		edit_survey
 	elsif choice == 'd'
@@ -56,7 +57,7 @@ def designer_menu
 	elsif choice == 'dq'
 		delete_question
 	elsif choice == 'vu'
-		list_users
+		only_list_users
 	elsif choice == 'eu'
 		edit_user
 	elsif choice == 'du'
@@ -105,10 +106,21 @@ end
 def add_user
 	puts "ENTER A NEW USER:"
 	user_input = gets.chomp
-	user = User.create(:name => user_input)
-	@user_id = user.id
-	puts "#{user.name} HAS BEEN ADDED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	user = User.new(:name => user_input)
+	if user.save
+		@user_id = user.id
+		puts "#{user.name} HAS BEEN ADDED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	else
+		user.errors.full_messages.each { |message| puts message }
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		add_user
+	end
+end
+
+def only_list_users
+	list_users
+	designer_menu
 end
 
 def list_users
@@ -117,26 +129,31 @@ def list_users
 		puts "#{user.id}: #{user.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
 end
 
 def edit_user
 	puts "ENTER A USER ID TO EDIT:"
 	list_users
 	user_input = gets.chomp
-	puts "ENTER THE NEW NAME"
+	puts "ENTER THE NEW NAME:"
 	new_name = gets.chomp
-	User.update(user_input, :name => new_name)
-	puts "USER UPDATED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
+	user = User.update(user_input, :name => new_name)
+	if user.save 
+		puts "USER UPDATED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	else
+		user.errors.full_messages.each { |message| puts message }
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		edit_user
+	end
 end
 
 def delete_user
 	puts "ENTER A USER ID TO DELETE:"
 	list_users
 	user_input = gets.chomp
-	User.delete(user_input)
+	user = User.delete(user_input)
 	puts "USER DELETED"
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 	designer_menu
@@ -168,9 +185,20 @@ end
 def add_survey
 	puts "ENTER A NEW SURVEY NAME:"
 	survey_name = gets.chomp
-	survey = Survey.create(:name => survey_name)
-	puts "#{survey.name} HAS BEEN ADDED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	survey = Survey.new(:name => survey_name)
+	if survey.save
+		puts "#{survey.name} HAS BEEN ADDED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	else
+		survey.errors.full_messages.each { |message| puts message }
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		add_survey
+	end
+end
+
+def only_list_surveys
+	list_surveys
 	designer_menu
 end
 
@@ -180,7 +208,6 @@ def list_surveys
 		puts "#{survey.id}: #{survey.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
 end
 
 def edit_survey
@@ -189,10 +216,16 @@ def edit_survey
 	survey_input = gets.chomp
 	puts "ENTER THE NEW NAME"
 	new_name = gets.chomp
-	Survey.update(survey_input, :name => new_name)
-	puts "SURVEY UPDATED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
+	survey = Survey.update(survey_input, :name => new_name)
+	if survey.save
+		puts "SURVEY UPDATED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	else
+		survey.errors.full_messages.each { |message| puts message }
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		edit_survey
+	end
 end
 
 def delete_survey
@@ -215,9 +248,20 @@ def add_question
 	a_input = gets.chomp
 	puts "ADD SECOND ANSWER"
 	b_input = gets.chomp
-	question = Question.create(:survey_id => survey_input, :description => description_input, :a => a_input, :b => b_input)
-	puts "QUESTION ADDED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+	question = Question.new(:survey_id => survey_input, :description => description_input, :a => a_input, :b => b_input)
+	if question.save
+		puts "#{question.name} ADDED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	else
+		question.errors.full_messages.each { |message| puts message }
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		add_question
+	end
+end
+
+def only_list_questions
+	list_questions
 	designer_menu
 end
 
@@ -229,7 +273,6 @@ def list_questions
 	puts "~~~~~~~ QUESTIONS ~~~~~~~"
 	questions.each { |question| puts "#{question.id}: #{question.description}" }
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
 end
 
 def edit_question
@@ -242,10 +285,16 @@ def edit_question
 	a_input = gets.chomp
 	puts "ENTER A NEW SECOND ANSWER"
 	b_input = gets.chomp
-	Question.update(question_input, :description => description_input, :a => a_input, :b => b_input)
-	puts "QUESTION UPDATED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
+	question = Question.update(question_input, :description => description_input, :a => a_input, :b => b_input)
+	if question.save
+		puts "QUESTION UPDATED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	else
+		question.errors.full_messages.each { |message| puts message }
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		edit_question
+	end
 end
 
 def delete_question
