@@ -3,7 +3,6 @@ require './lib/survey'
 require './lib/question'
 require './lib/answer'
 require './lib/user'
-require 'pry'
 
 database_configuration = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configuration['development']
@@ -125,7 +124,7 @@ end
 
 def list_users
 	puts "~~~~~~~~~ USERS ~~~~~~~~~"
-	User.all.each do |user|
+	User.sort_users.each do |user|
 		puts "#{user.id}: #{user.name}"
 	end
 	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
