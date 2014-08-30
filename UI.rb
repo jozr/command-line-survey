@@ -3,6 +3,7 @@ require './lib/survey'
 require './lib/question'
 require './lib/answer'
 require './lib/user'
+require 'pry'
 
 database_configuration = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configuration['development']
@@ -152,10 +153,16 @@ def delete_user
 	puts "ENTER A USER ID TO DELETE:"
 	list_users
 	user_input = gets.chomp
-	user = User.delete(user_input)
-	puts "USER DELETED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
+	binding.pry
+	if User.find_by(:id => user_input) == nil
+		puts "INVALID ENTRY"
+		delete_user
+	else	
+		User.delete(user_input)
+		puts "USER DELETED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	end
 end
 
 def take_survey
@@ -231,10 +238,15 @@ def delete_survey
 	puts "ENTER A SURVEY ID TO DELETE:"
 	list_surveys
 	survey_input = gets.chomp
-	Survey.delete(survey_input)
-	puts "SURVEY DELETED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
+	if Survey.find_by(:id => survey_input) == nil
+		puts "INVALID ENTRY"
+		delete_survey
+	else	
+		Survey.delete(survey_input)
+		puts "SURVEY DELETED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	end
 end
 
 def add_question
@@ -300,13 +312,15 @@ def delete_question
 	list_questions
 	puts "ENTER A QUESTION ID"
 	question_input = gets.chomp
-	Question.delete(question_input)
-	puts "QUESTION DELETED"
-	puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
-	designer_menu
+	if Question.find_by(:id => question_input) == nil
+		puts "INVALID ENTRY"
+		delete_question
+	else	
+		Question.delete(question_input)
+		puts "SURVEY DELETED"
+		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
+		designer_menu
+	end
 end
-
-
-
 
 welcome
