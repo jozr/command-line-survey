@@ -14,12 +14,14 @@ def welcome
 end
 
 def menu
-	puts "(s)urvey designer, (u)ser, e(x)it"
+	puts "(s)urvey designer, (u)ser, (f)igures, e(x)it"
 	main_choice = gets.chomp
 	if main_choice == 's'
 		designer_menu
 	elsif main_choice == 'u'
 		user_menu
+	elsif main_choice == 'f'
+		figure_menu
 	elsif main_choice == 'x'
 		puts "======================= GOODBYE ======================"
 		exit
@@ -85,6 +87,10 @@ def user_menu
 	end
 end
 
+def figure_menu
+
+end
+
 def user_login
 	@user_id = nil
 	puts "PRESS 'e' FOR EXISTING USER OR 'a' TO ADD USER"
@@ -95,8 +101,13 @@ def user_login
 		list_users
 		puts "CHOOSE USERNAME ID:"
 		user_input = gets.chomp
-		user = User.find_by(:id => user_input)
-		@user_id = user.id
+		if User.find_by(:id => user_input) == nil
+			puts "INVALID ENTRY"
+			user_login
+		else	
+			user = User.find_by(:id => user_input)
+			@user_id = user.id
+		end
 	else
 		puts "INVALID OPTION"
 	end	
