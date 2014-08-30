@@ -3,7 +3,6 @@ require './lib/survey'
 require './lib/question'
 require './lib/answer'
 require './lib/user'
-require 'pry'
 
 database_configuration = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configuration['development']
@@ -51,7 +50,7 @@ def designer_menu
 	elsif choice == 'aq'
 		add_question
 	elsif choice == 'lq'
-		list_questions
+		only_list_questions
 	elsif choice == 'eq'
 		edit_question
 	elsif choice == 'dq'
@@ -153,7 +152,6 @@ def delete_user
 	puts "ENTER A USER ID TO DELETE:"
 	list_users
 	user_input = gets.chomp
-	binding.pry
 	if User.find_by(:id => user_input) == nil
 		puts "INVALID ENTRY"
 		delete_user
@@ -261,7 +259,7 @@ def add_question
 	b_input = gets.chomp
 	question = Question.new(:survey_id => survey_input, :description => description_input, :a => a_input, :b => b_input)
 	if question.save
-		puts "#{question.name} ADDED"
+		puts "#{question.description} ADDED"
 		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 		designer_menu
 	else
