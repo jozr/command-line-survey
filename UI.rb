@@ -88,7 +88,17 @@ def user_menu
 end
 
 def figure_menu
-
+	puts "PRESS 'o' FOR OVERVIEW"
+	puts "PRESS 's' FOR SPECIFIC SURVEY STATISTICS"
+	choice = gets.chomp
+	case choice
+	when 'o'
+		overview
+	when 's'
+		survey_statistics
+	else 
+		puts "INVALID CHOICE"
+	end
 end
 
 def user_login
