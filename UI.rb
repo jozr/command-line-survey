@@ -3,6 +3,7 @@ require './lib/survey'
 require './lib/question'
 require './lib/answer'
 require './lib/user'
+require 'pry'
 
 database_configuration = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configuration['development']
@@ -99,6 +100,12 @@ def figure_menu
 	else 
 		puts "INVALID CHOICE"
 	end
+end
+
+def overview
+	puts "~~~~~~~~ OVERVIEW ~~~~~~~~"
+	surveys = Survey.all
+	binding.pry
 end
 
 def user_login
@@ -262,6 +269,11 @@ def delete_survey
 		delete_survey
 	else	
 		Survey.delete(survey_input)
+		questions = Question.where(:survey_id => survey_input)
+		questions.each do |question|
+			id = question.id
+			Question.delete(id)
+		end
 		puts "SURVEY DELETED"
 		puts "~~~~~~~~~~~~~~~~~~~~~~~~~"
 		designer_menu
