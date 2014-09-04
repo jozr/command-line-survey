@@ -15,7 +15,7 @@ def welcome
 end
 
 def menu
-	puts "(s)urvey designer, (u)ser, (f)igures, e(x)it"
+	puts "(s)urvey designer, (u)ser, e(x)it"
 	main_choice = gets.chomp
 	if main_choice == 's'
 		designer_menu
@@ -86,26 +86,6 @@ def user_menu
 	else
 		puts "INVALID CHOICE"
 	end
-end
-
-def figure_menu
-	puts "PRESS 'o' FOR OVERVIEW"
-	puts "PRESS 's' FOR SPECIFIC SURVEY STATISTICS"
-	choice = gets.chomp
-	case choice
-	when 'o'
-		overview
-	when 's'
-		survey_statistics
-	else 
-		puts "INVALID CHOICE"
-	end
-end
-
-def overview
-	puts "~~~~~~~~ OVERVIEW ~~~~~~~~"
-	surveys = Survey.all
-	binding.pry
 end
 
 def user_login
