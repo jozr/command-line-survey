@@ -11,7 +11,7 @@ ActiveRecord
 PostgreSQL
 Ruby
 
-##For Use:
+##For Use in Terminal:
 
 Clone the repository: 
 ```console
@@ -23,10 +23,9 @@ $ rake db:create
 $ rake db:migrate
 ```
 
-Use program in terminal through:
+Use program in terminal:
 ```console
 $ rake db:create
-$ rake db:migrate
 ```
 Have fun!
 
