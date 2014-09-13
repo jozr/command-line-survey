@@ -25,7 +25,7 @@ $ rake db:migrate
 
 Use program in terminal:
 ```console
-$ rake db:create
+$ ruby UI.rb
 ```
 Have fun!
 
