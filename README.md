@@ -1,4 +1,4 @@
-# Survey by Josie Wright
+# Command Line Survey
 
 ##Summary:
 
@@ -7,18 +7,30 @@ As a survey user, you are able login with a name, view and take surveys.
 
 ##Tools:
 
-ActiveRecord<br>
-Postgresql<br>
+ActiveRecord
+PostgreSQL
 Ruby
 
 ##For Use:
 
-Clone the repository using $ git clone<br>
-Run $ rake db:create then $ rake db:migrate<br>
-Use program in terminal through command 'ruby UI.rb'<br>
+Clone the repository: 
+```console
+$ git clone
+```
+Set up a local:
+```console
+$ rake db:create
+$ rake db:migrate
+```
+
+Use program in terminal through:
+```console
+$ rake db:create
+$ rake db:migrate
+```
 Have fun!
 
-##Liscense:
+##License:
 ####MIT
 
 
