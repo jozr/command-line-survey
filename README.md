@@ -7,9 +7,9 @@ As a survey user, you are able login with a name, view and take surveys.
 
 ##Tools:
 
-ActiveRecord
+Ruby 2.1.2
 PostgreSQL
-Ruby
+ActiveRecord
 
 ##For Use in Terminal:
 
@@ -27,7 +27,10 @@ Use program in terminal:
 ```console
 $ ruby UI.rb
 ```
-Have fun!
+To access tests, run this in the root:
+```console
+$ rspec
+```
 
 ##License:
 ####MIT
